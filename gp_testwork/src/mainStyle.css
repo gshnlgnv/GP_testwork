@@ -3,20 +3,27 @@
     height: 250px;
 }
 
+Link {
+    text-decoration: none;
+}
+
 .main__wrapper {
     display: flex;
     flex-direction: column;
     margin: 20px;
+
 }
 
 .main__inner_wrapper {
     display: flex;
     flex-direction: row;
     margin: 20px;
+
 }
 
 .news__text{
     padding-left: 10px;
+
 }
 
 @media (max-width: 760px) {

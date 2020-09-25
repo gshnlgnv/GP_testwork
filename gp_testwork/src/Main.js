@@ -1,39 +1,80 @@
 import React, {Component} from 'react';
-import news1__pic from './pics/news__1.png';
-import news2__pic from './pics/news__2.jpg';
-import news3__pic from './pics/news__3.jpg';
 import './mainStyle.css';
+import {BrowserRouter, Router, Route, Link, Switch} from "react-router-dom";
+import {News1} from './Components/News1';
+import {News2} from './Components/News2';
+import {News3} from './Components/News3';
+import {News1details} from './Components/News1details';
+import {News2details} from './Components/News2details';
+import {News3details} from './Components/News3details';
+import {connect} from 'react-redux';
+import {bindActionCreators} from "redux";
+import {news1details, news2details, news3details} from './actions';
+import {NEWS1, NEWS2, NEWS3} from './consts';
 
-class Main extends Component{
+class Main extends Component {
+
+    newsPrinting = () => {
+        console.log("this.props.news", this.props.news);
+
+        switch (this.props.news) {
+            case NEWS1:
+                return <div><News1details/></div>;
+            case NEWS2:
+                return <div><News2details/></div>;
+            case NEWS3:
+                return <div><News3details/></div>;
+            default:
+                return <BrowserRouter>
+                    <div>
+                        <div onClick={() => this.props.news1details()}>
+                            <News1/>
+                        </div>
+
+                        <div onClick={() => this.props.news2details()}>
+                            <News2/>
+                        </div>
+
+                        <div onClick={() => this.props.news3details()}>
+                            <News3/>
+                        </div>
+
+                        <Switch>
+                            <Route path="/News1details" component={News1details}/>
+                            <Route path="/News2details" component={News2details}/>
+                            <Route path="/News3details" component={News3details}/>
+                            {/*<Redirect from='/' to='/items'/>*/}
+                        </Switch>
+
+                    </div>
+                    </BrowserRouter>
+
+        }
+    };
+
     render() {
-        return(
-            <div className="main__wrapper">
-                <div className="main__inner_wrapper">
-                    <img className="news__pic" src={news1__pic} alt="news1__pic"/>
-                    <div className="news__text">
-                        <h3>Reading 1 </h3>
-                        <div>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                    </div>
-                </div>
+        return (
+            <BrowserRouter>
+                <div className="main__wrapper">
 
-                <div className="main__inner_wrapper">
-                    <img className="news__pic" src={news2__pic} alt="news2__pic"/>
-                    <div className="news__text">
-                        <h3>Reading 2 </h3>
-                        <div>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                    </div>
-                </div>
+                    {this.newsPrinting()}
 
-                <div className="main__inner_wrapper">
-                    <img className="news__pic" src={news3__pic} alt="news3__pic"/>
-                    <div className="news__text">
-                        <h3>Reading 3 </h3>
-                        <div>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                    </div>
+
+
                 </div>
-            </div>
+            </BrowserRouter>
         )
     }
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+    return {
+        news: state.changeNewsReducer.news,
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({news1details, news2details , news3details}, dispatch)
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
