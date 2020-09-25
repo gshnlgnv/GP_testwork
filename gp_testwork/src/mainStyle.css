@@ -1,0 +1,27 @@
+.news__pic {
+    width: 250px;
+    height: 250px;
+}
+
+.main__wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.main__inner_wrapper {
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+}
+
+.news__text{
+    padding-left: 10px;
+}
+
+@media (max-width: 760px) {
+    .main__inner_wrapper {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
